@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class Pervasive {
     static ArrayList<Integer> getFactors(int num) {
+        // github test comment
         ArrayList<Integer> factors = new ArrayList<>();
         for (int i = 0; i < num / 2; i++) {
             if (num % i == 0) {
