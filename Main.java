@@ -5,6 +5,7 @@ public class Main {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        //comment
         System.out.println("Welcome to Pervasive Parentheses!");
         System.out.println(
                 "Please enter a command (e (3) evaluates (3), g 20 generates an expression with value 20, q quits):");
