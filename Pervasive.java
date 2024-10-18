@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class Pervasive {
     static ArrayList<Integer> getFactors(int num) {
-        // github test comment
         ArrayList<Integer> factors = new ArrayList<>();
         for (int i = 0; i < num / 2; i++) {
             if (num % i == 0) {
@@ -71,16 +70,36 @@ public class Pervasive {
 
     static Pervasive parseInput(String text) {
         // example e (14)(2)3(((7)))
-        String formatted = "";
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) == '(') {
-                formatted
+                String num = text.substring(i, text.indexOf(")" + 1));
+                int completednum = 0;
+                if (num.length() > 1) {
+
+                    ArrayList<Integer> numlist = new ArrayList<>();
+                    for (char c : num.toCharArray()) {
+                        numlist.add(Integer.parseInt(String.valueOf(c)));
+                    }
+                    for (int digit : numlist) {
+                        completednum += digit;
+                    }
+                }
+                text = completednum + text.substring(text.indexOf(")") + 1);
             }
         }
     }
 
-    static boolean validate() {
-
+    static boolean validate(String str) {
+        int openParens = 0;
+        int closeParens = 0;
+        for (char c : str.toCharArray()) {
+            if (c == '(') {
+                openParens += 1;
+            } else if (c == ')') {
+                closeParens += 1;
+            }
+        }
+        return openParens == closeParens;
     }
 
     static String generate() {
