@@ -12,7 +12,7 @@ public class Pervasive {
     }
 
     // comment
-    static boolean validate(String str) {
+    static Validation validate(String str) {
         int openParens = 0;
         int closeParens = 0;
         for (char c : str.toCharArray()) {
@@ -20,9 +20,18 @@ public class Pervasive {
                 openParens += 1;
             } else if (c == ')') {
                 closeParens += 1;
+            } else {
+                try {
+                    Integer.parseInt(String.valueOf(c));
+                } catch (NumberFormatException e) {
+                    return new Validation(false, "Invalid character(s)");
+                }
             }
         }
-        return openParens == closeParens;
+        if (openParens != closeParens) {
+            return new Validation(false, "Extra open/close parenthesis");
+        }
+        return new Validation(true, "");
     }
 
     public static String generate(String text) {
