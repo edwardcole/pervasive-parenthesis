@@ -34,8 +34,39 @@ public class Pervasive {
         return new Validation(true, "");
     }
 
+    ArrayList<Integer> getPrimeFactors(int num) {
+        if(num < 0) {
+            return new ArrayList<>();
+        }
+        ArrayList<Integer> result = new ArrayList<>(num);
+        int counter = num;
+        if (counter % 2 == 0) {
+            while (counter % 2 == 0) {
+                counter /= 2;
+                result.add(num);
+            }
+        }
+        for(int i = 3; i < Math.sqrt(counter); i++) {
+            while(counter % i > 0) {
+                counter /= 2
+                result.add(counter);
+            }
+        }
+        if (num <= 2) {
+            return new ArrayList<>(num);
+        }
+    }
+
+    public static String generateFromInt(int num) {
+
+    }
+
     public static String generate(String text) {
-        return ""; // make later
+        try {
+            return generateFromInt(Integer.parseInt(text));
+        } catch (NumberFormatException e) {
+            return "Invalid number";
+        }
     }
 
     public static int evaluate(String text) {
