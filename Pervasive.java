@@ -4,9 +4,8 @@ public class Pervasive {
     static ArrayList<Integer> getFactors(int num) {
         ArrayList<Integer> factors = new ArrayList<>();
         for (int i = 0; i < num / 2; i++) {
-            if (num % i == 0) {
+            if (num % i == 0)
                 factors.add(i);
-            }
         }
         return factors;
     }
@@ -16,11 +15,11 @@ public class Pervasive {
         int openParens = 0;
         int closeParens = 0;
         for (char c : str.toCharArray()) {
-            if (c == '(') {
+            if (c == '(')
                 openParens += 1;
-            } else if (c == ')') {
+            else if (c == ')')
                 closeParens += 1;
-            } else {
+            else {
                 try {
                     Integer.parseInt(String.valueOf(c));
                 } catch (NumberFormatException e) {
@@ -35,23 +34,21 @@ public class Pervasive {
     }
 
     static ArrayList<Integer> getPrimeFactors(int num) {
-        if (num < 0) {
+        if (num < 0)
             return new ArrayList<>();
-        }
         ArrayList<Integer> result = new ArrayList<>(num);
+
         int counter = num;
         if (counter % 2 == 0) {
-            while (counter % 2 == 0) {
-                counter /= 2;
-                result.add(num);
-            }
+            for (; counter % 2 == 0; counter /= 2)
+                result.add(2);
         }
+
         for (int i = 3; i < Math.sqrt(counter); i++) {
-            while (counter % i > 0) {
-                counter /= i;
+            for (; counter % i == 0; counter /= i)
                 result.add(counter);
-            }
         }
+
         if (num <= 2) {
             result.add(num);
             result.add(1);
@@ -60,13 +57,33 @@ public class Pervasive {
     }
 
     public static ArrayList<Integer> getAdditivesOfPrime(int num) {
+        ArrayList<Integer> result = new ArrayList<>();
+        for (; num - 9 > 0; num -= 9)
+            result.add(9);
+        result.add(num);
+        return result;
+    }
 
+    public static boolean isEven(int num) {
+        return num / 2 == (int) (num / 2.0);
     }
 
     public static String generateFromInt(int num) {
         String result = "";
-        ArrayList<Integer> factors = getPrimeFactors(num);
-
+        int parens = 0;
+        int counter = num;
+        if (!isEven(counter)) {
+            counter--;
+            result += "1" + generateFromInt(counter);
+        } else {
+            if (num / 10 != 0) {
+                for (; counter % 2 == 0; counter /= 2) {
+                    result += "(";
+                    parens += 1;
+                }
+            }
+        }
+        return result;
     }
 
     public static String generate(String text) {
