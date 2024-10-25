@@ -52,6 +52,39 @@ public class Pervasive {
         if (num <= 2) {
             result.add(num);
             result.add(1);
+    // comment 3
+    static int evaluateArithmetic(String input) {
+        String inputWhitespace = "";
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) != ' ') {
+                inputWhitespace.concat(String.valueOf(input.charAt(i)));
+            }
+        }
+
+        String operation = "";
+        int param1 = -1;
+        int output = 0;
+
+        for (int i = 0; i < inputWhitespace.length(); i++) {
+            try {
+                int num = Integer.parseInt(String.valueOf(inputWhitespace.charAt(i)));
+
+                if (!operation.equals("") && param1 != -1) {
+
+                    if (operation.equals("+")) {
+                        output += param1 + num;
+                        operation = "";
+                        param1 = -1;
+                    }
+
+                } else {
+                    param1 = Integer.parseInt(String.valueOf(inputWhitespace.charAt(i)));
+                    // if operation & param1 are null then set param1 to it
+                }
+            } catch (NumberFormatException e) {
+                // then it is an operation
+                operation = String.valueOf(inputWhitespace.charAt(i));
+            }
         }
         return result;
     }
