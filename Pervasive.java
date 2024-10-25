@@ -77,12 +77,18 @@ public class Pervasive {
             result += "1" + generateFromInt(counter);
         } else {
             if (num / 10 != 0) {
-                for (; counter % 2 == 0; counter /= 2) {
+                for (; counter % 2 == 0 || counter / 10 == 0; counter /= 2) {
                     result += "(";
                     parens += 1;
                 }
+                for (int i = 0; i < parens; i++) {
+                    result += ")";
+                }
+            } else {
+                result += num;
             }
         }
+
         return result;
     }
 
