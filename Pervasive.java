@@ -34,8 +34,8 @@ public class Pervasive {
         return new Validation(true, "");
     }
 
-    ArrayList<Integer> getPrimeFactors(int num) {
-        if(num < 0) {
+    static ArrayList<Integer> getPrimeFactors(int num) {
+        if (num < 0) {
             return new ArrayList<>();
         }
         ArrayList<Integer> result = new ArrayList<>(num);
@@ -46,18 +46,26 @@ public class Pervasive {
                 result.add(num);
             }
         }
-        for(int i = 3; i < Math.sqrt(counter); i++) {
-            while(counter % i > 0) {
-                counter /= 2
+        for (int i = 3; i < Math.sqrt(counter); i++) {
+            while (counter % i > 0) {
+                counter /= i;
                 result.add(counter);
             }
         }
         if (num <= 2) {
-            return new ArrayList<>(num);
+            result.add(num);
+            result.add(1);
         }
+        return result;
+    }
+
+    public static ArrayList<Integer> getAdditivesOfPrime(int num) {
+
     }
 
     public static String generateFromInt(int num) {
+        String result = "";
+        ArrayList<Integer> factors = getPrimeFactors(num);
 
     }
 
