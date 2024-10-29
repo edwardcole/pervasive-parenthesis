@@ -94,13 +94,14 @@ public class Pervasive {
 
     public static String generate(String text) {
         try {
-            return generateFromInt(Integer.parseInt(text));
+            return generateFromInt(Integer.parseInt(text.substring(text.indexOf(" "))));
         } catch (NumberFormatException e) {
             return "Invalid number";
         }
     }
 
     public static int evaluate(String text) {
+        text = text.substring(text.indexOf("e") + 1);
         int val = 0;
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) == '(') {
