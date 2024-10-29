@@ -3,10 +3,10 @@ import java.util.ArrayList;
 public class Pervasive {
     static ArrayList<Integer> getFactors(int num) {
         ArrayList<Integer> factors = new ArrayList<>();
-        for (int i = 0; i < num / 2; i++) {
+        for (int i = 0; i < num / 2; i++)
             if (num % i == 0)
                 factors.add(i);
-        }
+
         return factors;
     }
 
@@ -27,9 +27,9 @@ public class Pervasive {
                 }
             }
         }
-        if (openParens != closeParens) {
+        if (openParens != closeParens)
             return new Validation(false, "Extra open/close parenthesis");
-        }
+
         return new Validation(true, "");
     }
 
@@ -39,15 +39,13 @@ public class Pervasive {
         ArrayList<Integer> result = new ArrayList<>(num);
 
         int counter = num;
-        if (counter % 2 == 0) {
+        if (counter % 2 == 0)
             for (; counter % 2 == 0; counter /= 2)
                 result.add(2);
-        }
 
-        for (int i = 3; i < Math.sqrt(counter); i++) {
+        for (int i = 3; i < Math.sqrt(counter); i++)
             for (; counter % i == 0; counter /= i)
                 result.add(counter);
-        }
 
         if (num <= 2) {
             result.add(num);
@@ -81,12 +79,11 @@ public class Pervasive {
                     result += "(";
                     parens += 1;
                 }
-                for (int i = 0; i < parens; i++) {
+                for (int i = 0; i < parens; i++)
                     result += ")";
-                }
-            } else {
+
+            } else
                 result += num;
-            }
         }
 
         return result;
@@ -113,18 +110,18 @@ public class Pervasive {
                 if (num.length() > 1) {
 
                     ArrayList<Integer> numlist = new ArrayList<>();
-                    for (char c : num.toCharArray()) {
+                    for (char c : num.toCharArray())
                         numlist.add(Integer.parseInt(String.valueOf(c)));
-                    }
+
                     // loops through the
-                    for (int digit : numlist) {
+                    for (int digit : numlist)
                         completednum += digit;
-                    }
+
                 }
                 val += completednum * 2; // times two because of parens
-            } else {
+            } else
                 val += Integer.parseInt(String.valueOf(text.charAt(i))); // if not in parens then just add the number
-            }
+
         }
         return val;
     }
