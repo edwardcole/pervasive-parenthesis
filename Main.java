@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class Main {
 
     public static Scanner scanner = new Scanner(System.in);
+
     // sigby
     public static void main(String[] args) {
         System.out.println("Welcome to Pervasive Parentheses!");
@@ -21,7 +22,13 @@ public class Main {
                 case 'g':
                     System.out.println("This number can be generated as: " + Pervasive.generate(text));
                 case 'v':
-                    System.out.println("The validity of this expression is: " + Pervasive.validate(text));
+                    Validation valid = Pervasive.validate(text);
+                    System.out.println("The validity of this expression is: " + valid.valid);
+                    if (!valid.valid) {
+                        System.out.println(valid.invalidationReason);
+                    }
+                default:
+                    System.out.println("Please enter a valid expression!");
             }
 
         }

@@ -102,6 +102,9 @@ public class Pervasive {
 
     public static int evaluate(String text) {
         text = text.substring(text.indexOf("e") + 1);
+        if (!validate(text).valid) {
+            return -1;
+        }
         int val = 0;
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) == '(') {
