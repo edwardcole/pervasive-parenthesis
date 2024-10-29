@@ -27,9 +27,9 @@ public class Pervasive {
                 }
             }
         }
-        if (openParens != closeParens)
+        if (openParens != closeParens) {
             return new Validation(false, "Extra open/close parenthesis");
-
+        }
         return new Validation(true, "");
     }
 
@@ -39,13 +39,15 @@ public class Pervasive {
         ArrayList<Integer> result = new ArrayList<>(num);
 
         int counter = num;
-        if (counter % 2 == 0)
+        if (counter % 2 == 0) {
             for (; counter % 2 == 0; counter /= 2)
                 result.add(2);
+        }
 
-        for (int i = 3; i < Math.sqrt(counter); i++)
+        for (int i = 3; i < Math.sqrt(counter); i++) {
             for (; counter % i == 0; counter /= i)
                 result.add(counter);
+        }
 
         if (num <= 2) {
             result.add(num);
@@ -79,25 +81,12 @@ public class Pervasive {
                     result += "(";
                     parens += 1;
                 }
-                if (counter + 9 > 9) {
-                    result += (counter - 9) + 9;
-                } else {
-                    if (!isEven(counter)) {
-                        if (counter / 10 <= 1) {
-                            result += counter;
-                        } else {
-                            counter -= 9;
-                            result += "9" + generateFromInt(counter);
-                        }
-                    } else {
-                        result += counter;
-                    }
-                }
-                for (int i = 0; i < parens; i++)
+                for (int i = 0; i < parens; i++) {
                     result += ")";
-
-            } else
+                }
+            } else {
                 result += num;
+            }
         }
 
         return result;
@@ -184,15 +173,23 @@ public class Pervasive {
         int val = 0;
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) == '(') {
-                String num = text.substring(getStartingParensAtPosition(text, i),
-                        getParenthesesAtPosition(text, i) + 1);
-                i = text.substring(i).indexOf(")") + 1;
-                val += evalParens(num, text, getParenthesesAtPosition(text, 1));
-            } else if (text.charAt(i) == ')')
-                continue;
-            else
-                val += Integer.parseInt(String.valueOf(text.charAt(i))); // if not in parens then just add the number
+                String num = text.substring(i, text.indexOf(")" + 1));
+                int completednum = 0;
+                if (num.length() > 1) {
 
+                    ArrayList<Integer> numlist = new ArrayList<>();
+                    for (char c : num.toCharArray()) {
+                        numlist.add(Integer.parseInt(String.valueOf(c)));
+                    }
+                    // loops through the
+                    for (int digit : numlist) {
+                        completednum += digit;
+                    }
+                }
+                val += completednum * 2; // times two because of parens
+            } else {
+                val += Integer.parseInt(String.valueOf(text.charAt(i))); // if not in parens then just add the number
+            }
         }
         return val;
     }
