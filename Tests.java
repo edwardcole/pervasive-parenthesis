@@ -18,7 +18,8 @@ public class Tests {
     public static void main(String[] args) {
         testEvaluate("(1)3", 5);
         testEvaluate("", 0);
-
+        testEvaluate("(1(2(3(4)5)6)7)8", 0);
+        testEvaluate("(((1(2))4))6", numCorrect);
     }
 }
 
