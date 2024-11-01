@@ -71,23 +71,27 @@ public class Pervasive {
         int parens = 0;
         int counter = num;
         if (!isEven(counter)) {
-            counter--;
-            result += "1" + generateFromInt(counter);
+            counter -= 9;
+            result += "9" + generateFromInt(counter);
         } else {
             if (num / 10 != 0) {
-                for (; counter % 2 == 0 && counter / 10 > 0; counter /= 2) {
+                for (; counter % 2 == 0 && counter / 10 > 0 && counter + 9 > 9; counter /= 2) {
                     result += "(";
                     parens += 1;
                 }
-                if (!isEven(counter)) {
-                    if (counter / 10 <= 1) {
-                        result += counter;
-                    } else {
-                        counter--;
-                        result += "1" + generateFromInt(counter);
-                    }
+                if (counter + 9 > 9) {
+                    result += (counter - 9) + 9;
                 } else {
-                    result += counter;
+                    if (!isEven(counter)) {
+                        if (counter / 10 <= 1) {
+                            result += counter;
+                        } else {
+                            counter -= 9;
+                            result += "9" + generateFromInt(counter);
+                        }
+                    } else {
+                        result += counter;
+                    }
                 }
                 for (int i = 0; i < parens; i++)
                     result += ")";
@@ -149,7 +153,11 @@ public class Pervasive {
             for (char c : num.substring(0, num.indexOf(")")).toCharArray()) {
                 if (c == '(')
                     if (i > 0)
-                        completednum += evalParens(num.substring(i, num.substring(i).indexOf(')') + 1), full,
+                        completednum += evalParens(
+                                num.substring(getStartingParensAtPosition(full,
+                                        startParensIndex),
+                                        getParenthesesAtPosition(full, startParensIndex) + 1),
+                                full,
                                 startParensIndex + 1);
                     else
                         continue;
