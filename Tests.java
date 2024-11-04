@@ -17,14 +17,31 @@ public class Tests {
         }
     }
 
-    static void testInput(String input) {
-
+    static void testValidate(String expression, boolean expected) {
+        Validation actual;
+        try {
+            actual = Pervasive.validate(expression);
+        } catch (Exception e) {
+            System.out.print("⚠️ Exception raised: " + e);
+            actual.valid = false;
+            System.out.println("⚠️ Exception raised: " + e);
+        }
+        if (actual.valid == expected) {
+            System.out.println("✅ Test passed");
+        } else {
+            System.out.println("⛔ Test failed. Expected: " + expected + ", got: " + actual);
+        }
+    }
     }
 
     public static void main(String[] args) {
-        testEvaluate("e (1)3", 5);
-        testEvaluate("e ", 0);
-        testEvaluate("e (1(2(3(4)5)6)7)8", 184);
-        testEvaluate("e (((1(2))4))6", 62);
+        testValidate("e 1(", false);
+        testValidate("(/)", false);
+        testValidate("", true);
+        testValidate("(1)3", true);
+        testValidate(")1("), false);
+        testValidate("(()1)", false);
+        testValidate("(((((1)))))", false);
+        
     }
-}
+} 
