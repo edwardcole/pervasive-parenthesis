@@ -4,12 +4,12 @@ public class Tests {
     static void testEvaluate(String expression, int expected) {
         int actual;
         try {
-            Pervasive.evaluate(expression);
+            actual = Pervasive.evaluate(expression);
         } catch (Exception e) {
+            System.out.print("⚠️ Exception raised: " + e);
+            actual = -1;
             System.out.println("⚠️ Exception raised: " + e);
         }
-        int actual = Pervasive.evaluate(expression);
-
         if (actual == expected) {
             System.out.println("✅ Test passed");
         } else {
