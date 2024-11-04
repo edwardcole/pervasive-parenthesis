@@ -4,6 +4,25 @@ public class Main {
 
     public static Scanner scanner = new Scanner(System.in);
 
+    public static int input(String text) {
+        if (text.charAt(0) == 'q') {
+            return -1;
+        }
+        if (text.charAt(0) == 'e')
+            System.out.println("This expression evaluates to: " + Pervasive.evaluate(text));
+        else if (text.charAt(0) == 'g')
+            System.out.println("This number can be generated as: " + Pervasive.generate(text));
+        else if (text.charAt(0) == 'v') {
+            Validation valid = Pervasive.validate(text);
+            System.out.println("The validity of this expression is: " + valid.valid);
+            if (!valid.valid) {
+                System.out.println(valid.invalidationReason);
+            }
+        } else
+            System.out.println("Please enter a valid expression!");
+        return 0;
+    }
+
     // sigby
     public static void main(String[] args) {
         System.out.println("Welcome to Pervasive Parentheses!");
@@ -11,22 +30,10 @@ public class Main {
                 "Please enter a command (e (3) evaluates (3), g 20 generates an expression with value 20, q quits):");
         while (true) {
             String text = scanner.nextLine();
-            if (text.charAt(0) == 'q') {
+            int ret = input(text);
+            if (ret == -1) {
                 break;
             }
-            if (text.charAt(0) == 'e')
-                System.out.println("This expression evaluates to: " + Pervasive.evaluate(text));
-            else if (text.charAt(0) == 'g')
-                System.out.println("This number can be generated as: " + Pervasive.generate(text));
-            else if (text.charAt(0) == 'v') {
-                Validation valid = Pervasive.validate(text);
-                System.out.println("The validity of this expression is: " + valid.valid);
-                if (!valid.valid) {
-                    System.out.println(valid.invalidationReason);
-                }
-            } else
-                System.out.println("Please enter a valid expression!");
-
         }
         System.out.println("Thank you for using Pervasive Parentheses!");
     }
