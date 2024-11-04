@@ -115,7 +115,7 @@ public class Pervasive {
     }
 
     private static int getParenthesesAtPosition(String str, int startParensIndex) {
-        int index = 0;
+        int index = -1;
         int iter = 0;
         for (int i = str.length(); i > 0 && iter < startParensIndex; i--) {
             int lastIndex = str.lastIndexOf(")");
@@ -134,7 +134,7 @@ public class Pervasive {
         int index = 0;
         int iter = 0;
         for (int i = 0; i < str.length() && iter < startParensIndex; i--) {
-            int lastIndex = str.lastIndexOf("(");
+            int lastIndex = str.indexOf("(");
             if (lastIndex != -1) {
                 i = lastIndex;
                 iter++;
@@ -175,18 +175,20 @@ public class Pervasive {
                 completednum += digit;
 
         }
-        return completednum;
+        System.out.println(completednum);
+        return completednum * 2;
     }
 
     public static int evaluate(String text) {
         text = text.substring(text.indexOf("e") + 2);
         if (!validate(text).valid) {
-            return -1;
+            return -99;
         }
         int val = 0;
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) == '(') {
-                String num = text.substring(i, text.substring(i).indexOf(")") + 1);
+                String num = text.substring(getStartingParensAtPosition(text, i),
+                        getParenthesesAtPosition(text, i) + 1);
                 i = text.substring(i).indexOf(")") + 1;
                 val += evalParens(num, text, getParenthesesAtPosition(text, 1));
             } else if (text.charAt(i) == ')')
