@@ -12,6 +12,7 @@ public class Pervasive {
 
     // comment
     static Validation validate(String str) {
+        str = str.substring(str.indexOf("v") + 2);
         int openParens = 0;
         int closeParens = 0;
         for (char c : str.toCharArray()) {
@@ -121,6 +122,7 @@ public class Pervasive {
             int lastIndex = str.lastIndexOf(")");
             if (lastIndex != -1) {
                 i = lastIndex;
+                index = i;
                 iter++;
                 str = str.substring(0, lastIndex - 1);
             } else {
@@ -131,43 +133,40 @@ public class Pervasive {
     }
 
     private static int getStartingParensAtPosition(String str, int startParensIndex) {
-        int index = 0;
+        int index = -1;
         int iter = 0;
         for (int i = 0; i < str.length() && iter < startParensIndex; i--) {
             int lastIndex = str.indexOf("(");
             if (lastIndex != -1) {
                 i = lastIndex;
+                index = i;
                 iter++;
-                str = str.substring(0, lastIndex - 1);
+                str = str.substring(lastIndex + 1);
             } else {
                 return index;
             }
+            // System.out.println(iter + " iter");
         }
         return index;
     }
 
-    public static int evalParens(String num, String full, int startParensIndex) {
-
+    public static int evalParens(String num) {
         int completednum = 0;
-        if (num.length() > 1) {
-
+        num = num.substring(1, num.length() - 1);
+        if (num.length() >= 1) {
             ArrayList<Integer> numlist = new ArrayList<>();
-            int i = 0;
-            for (char c : num.substring(0, num.indexOf(")")).toCharArray()) {
-                if (c == '(')
-                    if (i > 0)
-                        completednum += evalParens(
-                                num.substring(getStartingParensAtPosition(full,
-                                        startParensIndex),
-                                        getParenthesesAtPosition(full, startParensIndex) + 1),
-                                full,
-                                startParensIndex + 1);
-                    else
-                        continue;
-
-                System.out.println(c);
-                numlist.add(Integer.parseInt(String.valueOf(c)));
-                i++;
+            for (int i = 0; i < num.length(); i++) {
+                char c = num.charAt(i);
+                if (c == '(') {
+                    int valueOfParens = evalParens(
+                            num.substring(
+                                    getStartingParensAtPosition(num, 1),
+                                    getParenthesesAtPosition(num, 1) + 1));
+                    completednum += valueOfParens;
+                    i = getParenthesesAtPosition(num, 1);
+                } else {
+                    numlist.add(Integer.parseInt(String.valueOf(c)));
+                }
             }
 
             // loops through the
@@ -175,22 +174,24 @@ public class Pervasive {
                 completednum += digit;
 
         }
-        System.out.println(completednum);
+        System.out.println("c: " + completednum + " | num: " + num);
         return completednum * 2;
     }
 
     public static int evaluate(String text) {
         text = text.substring(text.indexOf("e") + 2);
-        if (!validate(text).valid) {
+        if (!validate("v " + text).valid) {
             return -99;
         }
         int val = 0;
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) == '(') {
-                String num = text.substring(getStartingParensAtPosition(text, i),
-                        getParenthesesAtPosition(text, i) + 1);
+                int startPos = text.indexOf("(");
+                int endPos = text.lastIndexOf(")") + 1;
+                String num = text.substring(startPos, endPos);
                 i = text.substring(i).indexOf(")") + 1;
-                val += evalParens(num, text, getParenthesesAtPosition(text, 1));
+                System.out.println("full: " + text);
+                val += evalParens(num);
             } else if (text.charAt(i) == ')')
                 continue;
             else
