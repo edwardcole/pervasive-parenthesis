@@ -18,7 +18,7 @@ public class Tests {
     }
 
     static void testValidate(String expression, boolean expected) {
-        Validation actual;
+        Validation actual = new Validation(false, "");
         try {
             actual = Pervasive.validate(expression);
         } catch (Exception e) {
@@ -31,8 +31,6 @@ public class Tests {
         } else {
             System.out.println("⛔ Test failed. Expected: " + expected + ", got: " + actual);
         }
-    }
-
     }
 
     public static void main(String[] args) {

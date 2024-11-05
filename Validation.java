@@ -1,6 +1,6 @@
 public class Validation {
-    final boolean valid;
-    final String invalidationReason;
+    boolean valid;
+    String invalidationReason;
 
     Validation(boolean valid, String invalidationReason) {
         this.valid = valid;
