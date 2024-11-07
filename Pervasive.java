@@ -10,12 +10,25 @@ public class Pervasive {
         return factors;
     }
 
-    // comment
+    public static int index(String s, int iter, String needle) {
+        int index = -1;
+        for (int i = 0; i < iter || s.indexOf(needle) != -1; i++) {
+            if (index == -1)
+                index = 0;
+            index = index + s.indexOf(needle);
+            s = s.substring(s.indexOf(needle));
+        }
+        return index;
+    }
+
     static Validation validate(String str) {
         str = str.substring(str.indexOf("v") + 2);
+        // get rid of the "v " at the beginning of validate functions
         int openParens = 0;
         int closeParens = 0;
+
         for (char c : str.toCharArray()) {
+            // loop through str to measure parentheses and catching any invalid characters
             if (c == '(')
                 openParens += 1;
             else if (c == ')')
@@ -28,39 +41,12 @@ public class Pervasive {
                 }
             }
         }
+
         if (openParens != closeParens)
             return new Validation(false, "Extra open/close parenthesis");
 
         return new Validation(true, "");
-    }
-
-    static ArrayList<Integer> getPrimeFactors(int num) {
-        if (num < 0)
-            return new ArrayList<>();
-        ArrayList<Integer> result = new ArrayList<>(num);
-
-        int counter = num;
-        if (counter % 2 == 0)
-            for (; counter % 2 == 0; counter /= 2)
-                result.add(2);
-
-        for (int i = 3; i < Math.sqrt(counter); i++)
-            for (; counter % i == 0; counter /= i)
-                result.add(counter);
-
-        if (num <= 2) {
-            result.add(num);
-            result.add(1);
-        }
-        return result;
-    }
-
-    public static ArrayList<Integer> getAdditivesOfPrime(int num) {
-        ArrayList<Integer> result = new ArrayList<>();
-        for (; num - 9 > 0; num -= 9)
-            result.add(9);
-        result.add(num);
-        return result;
+        // it passed :)
     }
 
     public static boolean isEven(int num) {
@@ -112,88 +98,75 @@ public class Pervasive {
         }
     }
 
-    private static int getParenthesesAtPosition(String str, int startParensIndex) {
-        int index = -1;
-        int iter = 0;
-        for (int i = str.length(); i > 0 && iter < startParensIndex; i--) {
-            int lastIndex = str.lastIndexOf(")");
-            if (lastIndex != -1) {
-                i = lastIndex;
-                index = i;
-                iter++;
-                str = str.substring(0, lastIndex - 1);
-            } else {
-                return index;
-            }
-        }
-        return index;
-    }
-
-    private static int getStartingParensAtPosition(String str, int startParensIndex) {
-        int index = -1;
-        int iter = 0;
-        for (int i = 0; i < str.length() && iter < startParensIndex; i--) {
-            int lastIndex = str.indexOf("(");
-            if (lastIndex != -1) {
-                i = lastIndex;
-                index = i;
-                iter++;
-                str = str.substring(lastIndex + 1);
-            } else {
-                return index;
-            }
-            // System.out.println(iter + " iter");
-        }
-        return index;
-    }
-
     public static int evalParens(String num) {
         int completednum = 0;
+        // int used for storing the number to return
+
         num = num.substring(1, num.length() - 1);
+        // get rid of the parens
         if (num.length() >= 1) {
-            ArrayList<Integer> numlist = new ArrayList<>();
+
             for (int i = 0; i < num.length(); i++) {
                 char c = num.charAt(i);
+                // loop through the characters in the parens expression
+
                 if (c == '(') {
-                    int valueOfParens = evalParens(
-                            num.substring(
-                                    getStartingParensAtPosition(num, 1),
-                                    getParenthesesAtPosition(num, 1) + 1));
-                    completednum += valueOfParens;
-                    i = getParenthesesAtPosition(num, 1);
+                    // if its an open parentheses then go deeper into recursion hell
+                    completednum += evalParens(num.substring(
+                            num.indexOf("("),
+                            num.indexOf(")") + 1));
+                    // call eval parens again on the parentheses expression
+                    i = num.indexOf(")");
+                    num = num.substring(num.indexOf(")"));
+                    // skip to the end of the parens expression
                 } else {
-                    numlist.add(Integer.parseInt(String.valueOf(c)));
+                    completednum += Integer.parseInt(String.valueOf(c));
                 }
             }
 
-            // loops through the
-            for (int digit : numlist)
-                completednum += digit;
-
         }
-        System.out.println("c: " + completednum + " | num: " + num);
+        // System.out.println("c: " + completednum + " | num: " + num);
         return completednum * 2;
+        // apply the doubling operator cause You know thats what parentheses do
     }
 
     public static int evaluate(String text) {
         text = text.substring(text.indexOf("e") + 2);
-        if (!validate("v " + text).valid) {
-            return -99;
+        // get rid of "e " before everything
+
+        Validation validation = validate("v " + text);
+        if (!validation.valid) {
+            System.err.println("Invalid expression | Error message: " + validation.invalidationReason
+                    + " expression: " + text);
+            return -1;
         }
+        // validate text
+
         int val = 0;
         for (int i = 0; i < text.length(); i++) {
+            // loop through every character in the string
+
             if (text.charAt(i) == '(') {
+
                 int startPos = text.indexOf("(");
                 int endPos = text.lastIndexOf(")") + 1;
+                // get start and end of the parenthesis for substring
+
                 String num = text.substring(startPos, endPos);
-                i = text.substring(i).indexOf(")") + 1;
-                System.out.println("full: " + text);
+                // System.out.println("full: " + text);
                 val += evalParens(num);
+                // Start recursion hell (a.k.a evaluate the parentheses...)
+
+                i = text.substring(i).lastIndexOf(")") + 1;
+                // skip to the latest index of ) to get out of the parens
             } else if (text.charAt(i) == ')')
                 continue;
-            else
-                val += Integer.parseInt(String.valueOf(text.charAt(i))); // if not in parens then just add the number
-
+            else {
+                int num = Integer.parseInt(String.valueOf(text.charAt(i)));
+                // parse the character as a number
+                // System.out.println("Adding number " + num + " from " + text.substring(i));
+                val += num; // if not in parens then just add the number
+            }
         }
         return val;
     }
