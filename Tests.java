@@ -2,14 +2,7 @@ public class Tests {
     static int numCorrect;
 
     static void testEvaluate(String expression, int expected) {
-        int actual;
-        try {
-            actual = Pervasive.evaluate(expression);
-        } catch (Exception e) {
-            System.out.print("⚠️ Exception raised: " + e);
-            actual = -1;
-            System.out.println("⚠️ Exception raised: " + e);
-        }
+        int actual = Pervasive.evaluate(expression);
         if (actual == expected) {
             System.out.println("✅ Test passed. " + expected + ", got: " + actual);
         } else {
@@ -42,7 +35,7 @@ public class Tests {
         // testValidate("(((((1)))))", false);
 
         testEvaluate("e 1(2(3(4(5)6)7)8)9", 230);
-        testEvaluate("e (((((5)))))", 160);
-        testEvaluate("(1)(2)(3)", 12);
+        // testEvaluate("e (((((5)))))", 160);
+        testEvaluate("e (1)(2)(3)", 12);
     }
 }

@@ -1,22 +1,29 @@
 import java.util.ArrayList;
 
 public class Pervasive {
-    static ArrayList<Integer> getFactors(int num) {
-        ArrayList<Integer> factors = new ArrayList<>();
-        for (int i = 0; i < num / 2; i++)
-            if (num % i == 0)
-                factors.add(i);
-
-        return factors;
-    }
 
     public static int index(String s, int iter, String needle) {
         int index = -1;
-        for (int i = 0; i < iter || s.indexOf(needle) != -1; i++) {
+        for (int i = 0; i < iter && s.indexOf(needle) != -1; i++) {
             if (index == -1)
                 index = 0;
+            if (s.indexOf(needle) == -1)
+                return -1;
             index = index + s.indexOf(needle);
             s = s.substring(s.indexOf(needle));
+        }
+        return index;
+    }
+
+    public static int lastIndex(String s, int iter, String needle) {
+        int index = -1;
+        for (int i = 0; i < iter && s.lastIndexOf(needle) != -1; i++) {
+            if (index == -1)
+                index = 0;
+            if (s.lastIndexOf(needle) == -1)
+                return -1;
+            index = index + s.lastIndexOf(needle);
+            s = s.substring(s.lastIndexOf(needle));
         }
         return index;
     }
@@ -66,8 +73,8 @@ public class Pervasive {
                     result += "(";
                     parens += 1;
                 }
-                if (counter + 9 > 9) {
-                    result += (counter - 9) + 9;
+                if (counter <= 18) {
+                    result += Integer.toString((counter - 9)) + 9;
                 } else {
                     if (!isEven(counter)) {
                         if (counter / 10 <= 1) {
@@ -98,9 +105,28 @@ public class Pervasive {
         }
     }
 
+    public static int closeParens(String s, int start) {
+        int status = 1;
+        int i = start;
+        for (; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == ')') {
+                status -= 1;
+            } else if (c == '(') {
+                status += 1;
+            }
+            if (status == 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static int evalParens(String num) {
         int completednum = 0;
         // int used for storing the number to return
+        int parenNum = 0;
+        // just incase an expression is formatted like (123)(456)
 
         num = num.substring(1, num.length() - 1);
         // get rid of the parens
@@ -112,20 +138,36 @@ public class Pervasive {
 
                 if (c == '(') {
                     // if its an open parentheses then go deeper into recursion hell
+                    System.out.println("num: " + num);
+                    System.out.println("call: " + num.substring(
+                            num.indexOf("("),
+                            num.lastIndexOf(")") + 1));
                     completednum += evalParens(num.substring(
                             num.indexOf("("),
-                            num.indexOf(")") + 1));
+                            num.lastIndexOf(")") + 1));
                     // call eval parens again on the parentheses expression
-                    i = num.indexOf(")");
-                    num = num.substring(num.indexOf(")"));
-                    // skip to the end of the parens expression
+                    int sParensIndex = closeParens(num, i + 1);
+                    if (sParensIndex != -1) {
+                        num = num.substring(sParensIndex);
+                        i = 0;
+                        System.out.println("upd num: " + num);
+                    } else {
+                        return completednum * 2;
+                    }
+                    // skip to the end of the parens expression and remove the previous one
                 } else {
+                    if (c == ')') {
+                        System.out.println(num);
+                        continue;
+                    }
+
                     completednum += Integer.parseInt(String.valueOf(c));
                 }
             }
 
         }
-        // System.out.println("c: " + completednum + " | num: " + num);
+        System.out.println("c: " + completednum * 2 + " | num: " + num);
+
         return completednum * 2;
         // apply the doubling operator cause You know thats what parentheses do
     }
