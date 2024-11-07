@@ -32,6 +32,7 @@ public class Tests {
             System.out.println("⛔ Test failed. Expected: " + expected + ", got: " + actual);
         }
     }
+
     }
 
     public static void main(String[] args) {
@@ -39,9 +40,11 @@ public class Tests {
         testValidate("(/)", false);
         testValidate("", true);
         testValidate("(1)3", true);
-        testValidate(")1("), false);
+        testValidate(")1()", false);
+        testValidate(")(1)(", false);
+        testValidate("5)))1(2((4", false);
         testValidate("(()1)", false);
         testValidate("(((((1)))))", false);
-        
+
     }
-} 
+}
