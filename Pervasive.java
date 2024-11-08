@@ -58,8 +58,8 @@ public class Pervasive {
         int parens = 0;
         int counter = num;
         if (!isEven(counter)) {
-            counter -= 9;
-            result += "9" + generateFromInt(counter);
+            counter -= 1;
+            result += "1" + generateFromInt(counter);
         } else {
             if (num / 10 != 0) {
                 for (; counter % 2 == 0 && counter / 10 > 0 && counter + 9 > 9; counter /= 2) {
@@ -73,8 +73,8 @@ public class Pervasive {
                         if (counter / 10 <= 1) {
                             result += counter;
                         } else {
-                            counter -= 9;
-                            result += "9" + generateFromInt(counter);
+                            counter -= 1;
+                            result += "1" + generateFromInt(counter);
                         }
                     } else {
                         result += counter;
