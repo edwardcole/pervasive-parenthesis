@@ -26,6 +26,16 @@ public class Tests {
         }
     }
 
+    static void testGenerate(int exp) {
+        String gen = "e " + Pervasive.generateFromInt(exp);
+        int eval = Pervasive.evaluate(gen);
+        if (eval == exp) {
+            System.out.println("✅ Test passed. generate: " + gen + ", eval: " + eval + ", entered: " + exp);
+        } else {
+            System.out.println("⛔ Test failed. generate: " + gen + ", eval: " + eval + ", entered: " + exp);
+        }
+    }
+
     public static void main(String[] args) {
         // testValidate("e 1(", false);
         // testValidate("(/)", false);
@@ -37,5 +47,10 @@ public class Tests {
         testEvaluate("e 1(2(3(4(5)6)7)8)9", 230);
         // testEvaluate("e (((((5)))))", 160);
         testEvaluate("e (1)(2)(3)", 12);
+        testGenerate(1);
+        testGenerate(10);
+        testGenerate(100);
+        testGenerate(1000);
+        testGenerate(10000);
     }
 }
