@@ -4,9 +4,11 @@ public class Tests {
     static void testEvaluate(String expression, int expected) {
         int actual = Pervasive.evaluate(expression);
         if (actual == expected) {
-            System.out.println("✅ Test passed. " + expected + ", got: " + actual);
+            System.out.println(
+                    "✅ Test passed. expression: " + expression + " expected: " + expected + ", got: " + actual);
         } else {
-            System.out.println("⛔ Test failed. Expected: " + expected + ", got: " + actual);
+            System.out.println(
+                    "⛔ Test failed. expression: " + expression + " expected: " + expected + ", got: " + actual);
         }
     }
 
@@ -20,9 +22,11 @@ public class Tests {
             System.out.println("⚠️ Exception raised: " + e);
         }
         if (actual.valid == expected) {
-            System.out.println("✅ Test passed. " + expected + ", got: " + actual);
+            System.out.println(
+                    "✅ Test passed. expression: " + expression + " expected: " + expected + ", got: " + actual);
         } else {
-            System.out.println("⛔ Test failed. Expected: " + expected + ", got: " + actual.valid);
+            System.out.println(
+                    "⛔ Test failed. expression: " + expression + " expected: " + expected + ", got: " + actual.valid);
         }
     }
 
