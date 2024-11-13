@@ -46,21 +46,17 @@ public class Pervasive {
                     parens += 1;
                 }
                 if (counter <= 18) {
-                    if(counter <= 9) {
-                        result += Integer.toString(counter);
+                    if (counter <= 9) {
+                        result += counter;
                     } else {
                         result += Integer.toString((counter - 9)) + 9;
                     }
                 } else {
                     if (!isEven(counter)) {
-                        if (counter / 10 <= 1) {
-                            result += counter;
-                        } else {
-                            counter -= 1;
-                            result += "1" + generateFromInt(counter);
-                        }
+                        counter -= 1;
+                        result += "1" + generateFromInt(counter);
                     } else {
-                        result += counter;
+                        result += generateFromInt(counter);
                     }
                 }
                 for (int i = 0; i < parens; i++)
@@ -95,42 +91,42 @@ public class Pervasive {
 
         int val = 0;
         System.out.println(text);
-        while(true) {
+        while (true) {
             int parensNum = 0;
             int i = text.indexOf(")");
-            if(i == -1)
+            if (i == -1)
                 break;
             i -= 1;
-            while(text.charAt(i) != '(') {
+            while (text.charAt(i) != '(') {
                 char c = text.charAt(i);
                 if (c == '`') {
                     int innerIndex = i;
                     i -= 1;
-                    while(text.charAt(i) != '`') {
+                    while (text.charAt(i) != '`') {
                         i--;
                     }
                     parensNum += Integer.parseInt(text.substring(i + 1, innerIndex));
                     i -= 1;
                 }
                 c = text.charAt(i);
-                if(text.charAt(i) == '(')
+                if (text.charAt(i) == '(')
                     break;
                 parensNum += Integer.parseInt(String.valueOf(c));
                 i--;
             }
-            text = text.substring(0, i) + "`" + parensNum * 2 + "`" +text.substring(text.indexOf(")") + 1);
+            text = text.substring(0, i) + "`" + parensNum * 2 + "`" + text.substring(text.indexOf(")") + 1);
         }
-        for(int i = 0; i < text.length() && i < text.length(); i++) {
-            while(i < text.length() && text.charAt(i) == '`') {
+        for (int i = 0; i < text.length() && i < text.length(); i++) {
+            while (i < text.length() && text.charAt(i) == '`') {
                 int innerIndex = i;
                 i += 1;
-                while(text.charAt(i) != '`') {
+                while (text.charAt(i) != '`') {
                     i++;
                 }
                 val += Integer.parseInt(text.substring(innerIndex + 1, i));
                 i += 1;
             }
-            if(i >= text.length())
+            if (i >= text.length())
                 return val;
 
             val += Integer.parseInt(String.valueOf(text.charAt(i)));
