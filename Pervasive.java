@@ -11,7 +11,7 @@ public class Pervasive {
                 balance++;
             } else if (c == ')') {
                 balance--;
-                if (balance > 0) {
+                if (balance < 0) {
                     return new Validation(false, "Mismatched Parentheses");
                 }
             } else {

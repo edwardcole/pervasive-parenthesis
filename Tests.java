@@ -13,20 +13,15 @@ public class Tests {
     }
 
     static void testValidate(String expression, boolean expected) {
-        Validation actual = new Validation(false, "");
-        try {
-            actual = Pervasive.validate(expression);
-        } catch (Exception e) {
-            System.out.print("⚠️ Exception raised: " + e);
-            actual.valid = false;
-            System.out.println("⚠️ Exception raised: " + e);
-        }
+        Validation actual = Pervasive.validate("v " + expression);
+
         if (actual.valid == expected) {
             System.out.println(
-                    "✅ Test passed. expression: " + expression + " expected: " + expected + ", got: " + actual);
+                    "✅ Test passed. expression: " + expression + " expected: " + expected + ", got: " + actual.valid);
         } else {
             System.out.println(
-                    "⛔ Test failed. expression: " + expression + " expected: " + expected + ", got: " + actual.valid);
+                    "⛔ Test failed. expression: " + expression + " expected: " + expected + ", got: " + actual.valid
+                            + " reason: " + actual.invalidationReason);
         }
     }
 
@@ -63,8 +58,8 @@ public class Tests {
         testValidate("", true);
         testValidate("(1)3", true);
         testValidate(")1(", false);
-        testValidate("(()1)", false);
-        testValidate("(((((1)))))", false);
+        testValidate("(()1)", true);
+        testValidate("(((((1)))))", true);
 
     }
 }
