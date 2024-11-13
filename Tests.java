@@ -40,10 +40,6 @@ public class Tests {
         }
     }
 
-    System.out.println("⛔ Test failed. Expected: "+expected+", got: "+actual);
-
-    }}
-
     public static void main(String[] args) {
         // testValidate("e 1(", false);
         // testValidate("(/)", false);
