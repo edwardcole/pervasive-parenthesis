@@ -52,5 +52,7 @@ public class Tests {
         testGenerate(100);
         testGenerate(1000);
         testGenerate(10000);
+        testGenerate(100000);
+
     }
 }

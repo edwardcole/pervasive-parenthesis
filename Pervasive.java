@@ -90,7 +90,6 @@ public class Pervasive {
         // validate text
 
         int val = 0;
-        System.out.println(text);
         while (true) {
             int parensNum = 0;
             int i = text.indexOf(")");
