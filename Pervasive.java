@@ -3,29 +3,31 @@ public class Pervasive {
     static Validation validate(String str) {
         str = str.substring(str.indexOf("v") + 2);
         // get rid of the "v " at the beginning of validate functions
-        int openParens = 0;
-        int closeParens = 0;
+        int balance = 0;
 
         for (char c : str.toCharArray()) {
             // loop through str to measure parentheses and catching any invalid characters
-            if (c == '(')
-                openParens += 1;
-            else if (c == ')')
-                closeParens += 1;
-            else {
+            if (c == '(') {
+                balance++;
+            } else if (c == ')') {
+                balance--;
+                if (balance > 0) {
+                    return new Validation(false, "Mismatched Parentheses");
+                }
+            } else {
                 try {
                     Integer.parseInt(String.valueOf(c));
                 } catch (NumberFormatException e) {
-                    return new Validation(false, "Invalid character(s)");
+                    return new Validation(false, "Invalid Characters");
                 }
             }
+
+        }
+        if (balance != 0) {
+            return new Validation(false, "Extra Open/Close Parentheses");
         }
 
-        if (openParens != closeParens)
-            return new Validation(false, "Extra open/close parenthesis");
-
-        return new Validation(true, "");
-        // it passed :)
+        return new Validation(true, "Valid Expression");
     }
 
     public static boolean isEven(int num) {
