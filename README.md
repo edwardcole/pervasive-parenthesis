@@ -2,4 +2,4 @@
 Awesome
 
 ## TODO:
-- fix all the bugs⛔
+- nothing 👻
