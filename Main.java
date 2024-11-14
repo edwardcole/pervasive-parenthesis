@@ -27,11 +27,12 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome to Pervasive Parentheses!");
         System.out.println(
-                "Please enter a command (e (3) evaluates (3), g 20 generates an expression with value 20, q quits):");
+                "Please enter a command (e (3) evaluates (3), g 20 generates an expression with value 20, v (3) says the validity of the expression, and q quits):");
         while (true) {
             String text = scanner.nextLine();
             int ret = input(text);
             if (ret == -1) {
+                // -1 is like an error code or stop code
                 break;
             }
         }

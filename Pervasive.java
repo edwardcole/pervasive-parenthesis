@@ -41,11 +41,14 @@ public class Pervasive {
         if (!isEven(counter)) {
             counter -= 1;
             result += "1" + generateFromInt(counter);
+            // as said in the lang exploration doc, it'll subtract by 1 and add 1 at the end
         } else {
             if (num / 10 != 0) {
                 for (; counter % 2 == 0 && counter / 10 > 0 && counter + 9 > 9; counter /= 2) {
                     result += "(";
                     parens += 1;
+                    // loop that just divides counter by two while it's even every iteration and
+                    // checks if its within 1-18 for a shortcut
                 }
                 if (counter <= 18) {
                     if (counter <= 9) {
@@ -53,16 +56,20 @@ public class Pervasive {
                     } else {
                         result += Integer.toString((counter - 9)) + 9;
                     }
+                    // this just divides 18 into 9 plus the number minus nine
+                    // so like 17 would be 9 + 6 since 6 is 17 - 9
                 } else {
                     if (!isEven(counter)) {
                         counter -= 1;
                         result += "1" + generateFromInt(counter);
+                        // same as initial
                     } else {
                         result += generateFromInt(counter);
                     }
                 }
                 for (int i = 0; i < parens; i++)
                     result += ")";
+                // add the parens in
 
             } else
                 result += num;
@@ -74,6 +81,7 @@ public class Pervasive {
     public static String generate(String text) {
         try {
             return generateFromInt(Integer.parseInt(text.substring(text.indexOf(" ") + 1)));
+            // fancy substring to remove the 'g ' from the start
         } catch (NumberFormatException e) {
             return "Invalid number";
         }
@@ -99,12 +107,15 @@ public class Pervasive {
                 break;
             i -= 1;
             while (text.charAt(i) != '(') {
+                // so it just goes to the first end parens and goes backwards until the first
+                // open paren
                 char c = text.charAt(i);
                 if (c == '`') {
+                    // ` just means true number and not pervasive number. so like `4` is 22
                     int innerIndex = i;
                     i -= 1;
                     while (text.charAt(i) != '`') {
-                        i--;
+                        i -= 1;
                     }
                     parensNum += Integer.parseInt(text.substring(i + 1, innerIndex));
                     i -= 1;
@@ -116,15 +127,18 @@ public class Pervasive {
                 i--;
             }
             text = text.substring(0, i) + "`" + parensNum * 2 + "`" + text.substring(text.indexOf(")") + 1);
+            // convty parens to a true expression
         }
         for (int i = 0; i < text.length() && i < text.length(); i++) {
             while (i < text.length() && text.charAt(i) == '`') {
+                // code to evaluate all of the backticks
                 int innerIndex = i;
                 i += 1;
                 while (text.charAt(i) != '`') {
                     i++;
                 }
                 val += Integer.parseInt(text.substring(innerIndex + 1, i));
+                // + 1 at beginning cause it goes backwards
                 i += 1;
             }
             if (i >= text.length())

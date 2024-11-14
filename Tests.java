@@ -36,15 +36,8 @@ public class Tests {
     }
 
     public static void main(String[] args) {
-        // testValidate("e 1(", false);
-        // testValidate("(/)", false);
-        // testValidate("", true);
-        // testValidate("(1)3", true);
-        // testValidate("(()1)", false);
-        // testValidate("(((((1)))))", false);
 
         testEvaluate("e 1(2(3(4(5)6)7)8)9", 230);
-        // testEvaluate("e (((((5)))))", 160);
         testEvaluate("e (1)(2)(3)", 12);
         testGenerate(1);
         testGenerate(10);
@@ -60,6 +53,5 @@ public class Tests {
         testValidate(")1(", false);
         testValidate("(()1)", true);
         testValidate("(((((1)))))", true);
-
     }
 }
